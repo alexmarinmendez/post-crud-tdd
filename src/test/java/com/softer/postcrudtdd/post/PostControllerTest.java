@@ -73,7 +73,12 @@ public class PostControllerTest {
 
     @Test
     void shouldCreateNewPostWhenPostDataIsValid() throws Exception {
-        mockMvc.perform(post("/api/posts").contentType("application/json").content(""))
+        var post = new Post(3, 1, "Post Title 3", "Post Body 3", null);
+        when(postRepository.save(post)).thenReturn(post);
+        var jsonResponse = """
+                { "id": %d, "userId": %d, "title": "%s", "body": "%s", "version": null }
+                """.formatted(post.id(), post.userId(), post.title(), post.body());
+        mockMvc.perform(post("/api/posts").contentType("application/json").content(jsonResponse))
                 .andExpect(status().isCreated());
     }
 }

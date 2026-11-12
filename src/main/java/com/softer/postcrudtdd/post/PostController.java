@@ -1,9 +1,6 @@
 package com.softer.postcrudtdd.post;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,4 +25,8 @@ public class PostController {
         return postRepository.findById(id);
     }
 
+    @PostMapping
+    Post create(@RequestBody Post post) {
+        return postRepository.save(post);
+    }
 }
