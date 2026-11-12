@@ -53,8 +53,13 @@ public class PostControllerTest {
 
     @Test
     void shouldFindPostWhenGivenValidID() throws Exception {
+        var post = posts.getFirst();
+        var jsonResponse = """
+                { "id": %d, "userId": %d, "title": "%s", "body": "%s", "version": null }
+                """.formatted(post.id(), post.userId(), post.title(), post.body());
         when(postRepository.findById(1)).thenReturn(Optional.of(posts.getFirst()));
         mockMvc.perform(get("/api/posts/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().json(jsonResponse));
     }
 }
