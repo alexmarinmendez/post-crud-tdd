@@ -1,5 +1,6 @@
 package com.softer.postcrudtdd.post;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class PostController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    Post create(@RequestBody Post post) {
+    Post create(@RequestBody @Valid Post post) {
         return postRepository.save(post);
     }
 }
