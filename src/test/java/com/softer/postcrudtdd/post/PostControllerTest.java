@@ -14,6 +14,7 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -68,5 +69,11 @@ public class PostControllerTest {
         when(postRepository.findById(999)).thenThrow(PostNotFoundException.class);
         mockMvc.perform(get("/api/posts/999"))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldCreateNewPostWhenPostDataIsValid() throws Exception {
+        mockMvc.perform(post("/api/posts").contentType("application/json").content(""))
+                .andExpect(status().isCreated());
     }
 }
