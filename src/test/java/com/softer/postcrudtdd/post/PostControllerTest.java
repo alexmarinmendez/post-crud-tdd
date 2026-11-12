@@ -62,4 +62,11 @@ public class PostControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(jsonResponse));
     }
+
+    @Test
+    void shouldNotFindPostWhenGivenInvalidID() throws Exception {
+        when(postRepository.findById(999)).thenThrow(PostNotFoundException.class);
+        mockMvc.perform(get("/api/posts/999"))
+                .andExpect(status().isNotFound());
+    }
 }
