@@ -32,4 +32,21 @@ public class PostController {
     Post create(@RequestBody @Valid Post post) {
         return postRepository.save(post);
     }
+
+    @PutMapping("/{id}")
+    Post update(@PathVariable Integer id, @RequestBody Post post) {
+        Optional<Post> existing = postRepository.findById(id);
+        if (existing.isPresent()) {
+            Post updated = new Post(
+                    existing.get().id(),
+                    existing.get().userId(),
+                    post.title(),
+                    post.body(),
+                    existing.get().version()
+            );
+            return postRepository.save(updated);
+        } else {
+            throw new PostNotFoundException();
+        }
+    }
 }
